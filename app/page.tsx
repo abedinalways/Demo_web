@@ -8,10 +8,6 @@ import Dokmeh3DScene from "@/components/canvas/Dokmeh3DScene";
 import Navbar from "@/components/navbar/Navbar";
 import HeroSection from "@/components/hero/HeroSection";
 import WhyUsPinnedSection from "@/components/why-us/WhyUsPinnedSection";
-import WorksSection from "@/components/works/WorksSection";
-import ServicesSection from "@/components/services/ServicesSection";
-import StudioSection from "@/components/about/StudioSection";
-import Footer from "@/components/footer/Footer";
 
 export default function Home() {
   return (
@@ -22,33 +18,21 @@ export default function Home() {
       {/* Dokmeh Signature Yellow Loader with Pixel Dissolve */}
       <DokmehLoader />
 
-      {/* Main Experience Container */}
-      <div className="relative min-h-screen bg-[#0d0d0d] text-[#f4f4f4]">
-        {/* Authentic Dokmeh 3D Chrome Emblem + WebGL Liquid Ripple Video Background */}
+      {/* Main Experience Container - Transparent / Light Fog (No Black Background) */}
+      <div className="relative min-h-screen text-[#ffffff]">
+        {/* Fullscreen 3D Universe moving in sync with mouse scroll */}
         <Dokmeh3DScene />
 
-        {/* Global Fixed Navigation */}
+        {/* Dokmeh Signature Yellow Capsule Header */}
         <Navbar />
 
-        {/* Page Content Layers */}
+        {/* Continuous 3D Scroll Journey Layers */}
         <main className="relative z-10 flex flex-col w-full">
-          {/* Hero Section */}
+          {/* Section 1: Hero Experience (Sky, Reeds, Liquid Ripple & Floating 3D Emblem) */}
           <HeroSection />
 
-          {/* Dokmeh Famous "Why Us" Pinned Stepper */}
+          {/* Section 2: Cinematic 3D Beach Universe (Camera swoops through 45+ -> 350+ -> 15+ -> WHY US?) */}
           <WhyUsPinnedSection />
-
-          {/* Selected Portfolio & Works Grid */}
-          <WorksSection />
-
-          {/* Capabilities & Interactive Services */}
-          <ServicesSection />
-
-          {/* Studio Manifesto & Marquee Ticker */}
-          <StudioSection />
-
-          {/* Giant Call-to-action & Footer */}
-          <Footer />
         </main>
       </div>
     </LenisProvider>

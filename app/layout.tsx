@@ -26,9 +26,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0d0d0d] text-[#f4f4f4] overflow-x-hidden selection:bg-[#f7c02f] selection:text-black">
+      <body className="min-h-full flex flex-col bg-[#8b9da7] text-[#ffffff] overflow-x-hidden selection:bg-[#f7c02f] selection:text-black">
         <div className="grain-overlay" aria-hidden="true" />
         {children}
       </body>

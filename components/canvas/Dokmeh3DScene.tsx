@@ -21,15 +21,16 @@ export default function Dokmeh3DScene() {
 
     // --- Scene, Camera, Renderer ---
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2("#a8b4bb", 0.035);
+    const fogColor = new THREE.Color("#a8b4bb");
+    scene.fog = new THREE.FogExp2(fogColor, 0.035);
 
     const camera = new THREE.PerspectiveCamera(
       42,
       window.innerWidth / window.innerHeight,
       0.1,
-      100
+      120
     );
-    camera.position.set(0, 0, 5.5);
+    camera.position.set(0, 0, 5.2);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -124,10 +125,11 @@ export default function Dokmeh3DScene() {
     const goldNormalMap = texLoader.load(
       "/assets/materials/Metal048A_1K-JPG/Metal048A_1K-JPG_NormalGL.webp"
     );
+
     const sandColorMap = texLoader.load("/assets/img/why-us-sand.webp");
     sandColorMap.wrapS = THREE.RepeatWrapping;
     sandColorMap.wrapT = THREE.RepeatWrapping;
-    sandColorMap.repeat.set(12, 12);
+    sandColorMap.repeat.set(16, 16);
 
     const rgbeLoader = new RGBELoader();
     rgbeLoader.load("/assets/hdr/warm_reception_dinner_1k.hdr", (texture) => {
@@ -135,13 +137,13 @@ export default function Dokmeh3DScene() {
       scene.environment = texture;
     });
 
-    // --- 3. Beach Universe (Coastal Mountains, Dark Sand & Ocean) ---
+    // --- 3. 3D Beach Universe (Sky, Dark Sand, Ocean Waves, Mountains) ---
     const beachGroup = new THREE.Group();
     scene.add(beachGroup);
     beachGroup.position.set(0, -1.2, 0);
 
-    // Sky Dome Gradient Background
-    const skyGeo = new THREE.SphereGeometry(45, 32, 15);
+    // Sky Hemisphere Dome
+    const skyGeo = new THREE.SphereGeometry(60, 32, 16);
     const skyMat = new THREE.ShaderMaterial({
       uniforms: {
         uTop: { value: new THREE.Color("#617380") },
@@ -169,8 +171,8 @@ export default function Dokmeh3DScene() {
     const skyMesh = new THREE.Mesh(skyGeo, skyMat);
     beachGroup.add(skyMesh);
 
-    // Sand Pebble Terrain Plane
-    const sandGeo = new THREE.PlaneGeometry(50, 50, 64, 64);
+    // Sand Pebble Shoreline Plane
+    const sandGeo = new THREE.PlaneGeometry(60, 60, 64, 64);
     sandGeo.rotateX(-Math.PI / 2);
     const sandMat = new THREE.MeshStandardMaterial({
       map: sandColorMap,
@@ -179,32 +181,32 @@ export default function Dokmeh3DScene() {
       color: 0x484848,
     });
     const sandMesh = new THREE.Mesh(sandGeo, sandMat);
-    sandMesh.position.set(0, -0.4, -5);
+    sandMesh.position.set(0, -0.4, -6);
     beachGroup.add(sandMesh);
 
     // Ocean Water Plane (Reflective & Wave Motion)
-    const waterGeo = new THREE.PlaneGeometry(40, 40, 48, 48);
+    const waterGeo = new THREE.PlaneGeometry(45, 45, 48, 48);
     waterGeo.rotateX(-Math.PI / 2);
     const waterMat = new THREE.MeshStandardMaterial({
       color: 0x243a44,
       roughness: 0.15,
-      metalness: 0.8,
+      metalness: 0.82,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.94,
     });
     const waterMesh = new THREE.Mesh(waterGeo, waterMat);
-    waterMesh.position.set(-10, -0.36, -5);
+    waterMesh.position.set(-11, -0.36, -6);
     waterMesh.rotation.y = 0.08;
     beachGroup.add(waterMesh);
 
-    // Scattered Gold Nuggets & Coastal Rocks along Shoreline
-    const rockGeo = new THREE.DodecahedronGeometry(0.12, 1);
+    // Scattered Gold Nuggets & Coastal Rocks
+    const rockGeo = new THREE.DodecahedronGeometry(0.14, 1);
     const goldNuggetMat = new THREE.MeshStandardMaterial({
       map: goldColorMap,
       roughnessMap: goldRoughMap,
       normalMap: goldNormalMap,
-      metalness: 0.95,
-      roughness: 0.25,
+      metalness: 0.96,
+      roughness: 0.22,
       color: 0xffd700,
     });
     const blackStoneMat = new THREE.MeshStandardMaterial({
@@ -213,14 +215,14 @@ export default function Dokmeh3DScene() {
       metalness: 0.1,
     });
 
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 50; i++) {
       const isGold = Math.random() > 0.45;
       const rock = new THREE.Mesh(
         rockGeo,
         isGold ? goldNuggetMat : blackStoneMat
       );
-      const rx = (Math.random() - 0.5) * 16 - 2;
-      const rz = -Math.random() * 12 - 2;
+      const rx = (Math.random() - 0.5) * 18 - 2;
+      const rz = -Math.random() * 14 - 2;
       const s = Math.random() * 0.8 + 0.4;
       rock.scale.set(s, s * 0.6, s);
       rock.position.set(rx, -0.34, rz);
@@ -232,7 +234,7 @@ export default function Dokmeh3DScene() {
       beachGroup.add(rock);
     }
 
-    // Load Coastal Mountain Cliffs GLB
+    // Load Coastal Mountains GLB
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
       "https://www.gstatic.com/draco/versioned/decoders/1.5.6/"
@@ -242,8 +244,8 @@ export default function Dokmeh3DScene() {
 
     gltfLoader.load("/assets/models/why-us-coast.glb", (gltf) => {
       const coastModel = gltf.scene;
-      coastModel.scale.set(16, 12, 16);
-      coastModel.position.set(4, -0.8, -18);
+      coastModel.scale.set(18, 14, 18);
+      coastModel.position.set(4, -0.8, -20);
       coastModel.traverse((child) => {
         if ((child as THREE.Mesh).isMesh) {
           const m = child as THREE.Mesh;
@@ -262,7 +264,7 @@ export default function Dokmeh3DScene() {
     scene.add(emblemGroup);
     emblemGroup.position.set(0, 0.4, 0);
 
-    // Hammered Gold Material (From Dokmeh assets Metal048A)
+    // Hammered Gold Material (From Dokmeh Metal048A asset)
     const goldMaterial = new THREE.MeshStandardMaterial({
       map: goldColorMap,
       roughnessMap: goldRoughMap,
@@ -345,7 +347,8 @@ export default function Dokmeh3DScene() {
     let targetMouseY = 0;
     let mouseX = 0;
     let mouseY = 0;
-    let scrollProgress = 0;
+    let currentScrollProgress = 0;
+    let targetScrollProgress = 0;
 
     const onMouseMove = (e: MouseEvent) => {
       targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -363,14 +366,14 @@ export default function Dokmeh3DScene() {
       const scrollY = window.scrollY || window.pageYOffset || 0;
       const docHeight =
         document.documentElement.scrollHeight - window.innerHeight;
-      scrollProgress = docHeight > 0 ? scrollY / docHeight : 0;
+      targetScrollProgress = docHeight > 0 ? scrollY / docHeight : 0;
     };
     window.addEventListener("scroll", onScroll);
 
     const onDokmehScroll = (e: Event) => {
       const customEvent = e as CustomEvent<DokmehScrollDetail>;
       if (customEvent.detail?.progress !== undefined) {
-        scrollProgress = customEvent.detail.progress;
+        targetScrollProgress = customEvent.detail.progress;
       }
     };
     window.addEventListener("dokmeh-scroll", onDokmehScroll);
@@ -393,7 +396,7 @@ export default function Dokmeh3DScene() {
     const animate = () => {
       const elapsedTime = clock.getElapsedTime();
 
-      // 1. Water Wave Vertex Motion
+      // 1. Water Wave Motion
       const posAttr = waterGeo.attributes.position;
       for (let i = 0; i < posAttr.count; i++) {
         const u = posAttr.getX(i);
@@ -428,39 +431,99 @@ export default function Dokmeh3DScene() {
         displacementTexture.needsUpdate = true;
       }
 
-      // 3. Smooth Mouse Lerp
+      // 3. Smooth Mouse & Scroll Lerping
       mouseX += (targetMouseX - mouseX) * 0.05;
       mouseY += (targetMouseY - mouseY) * 0.05;
+      currentScrollProgress +=
+        (targetScrollProgress - currentScrollProgress) * 0.08;
 
-      // 4. Hero vs Beach Universe Transition on Scroll
-      // When at the very top (Hero), video ripple is visible
-      // As you scroll down (Why Us Beach section), video fades completely and 3D beach camera takes over
-      const heroFade = Math.max(0, 1 - scrollProgress * 3.2);
+      const p = currentScrollProgress;
+
+      // 4. Hero Section -> 3D Beach Continuous Camera Journey
+      // When at scroll 0: Hero video is full opacity
+      // As you scroll (0 -> 0.25): Hero video dissolves away, revealing the 3D beach world!
+      const heroFade = Math.max(0, 1 - p * 4.0);
       rippleMaterial.uniforms.uOpacity.value = heroFade;
 
-      // Camera transitions into the Beach landscape
-      // As you scroll down towards "WHY US?", camera drops down and angles forward
-      const beachActive = Math.min(scrollProgress * 2.5, 1);
-      camera.position.y = THREE.MathUtils.lerp(0, 0.4, beachActive) + mouseY * 0.15;
-      camera.position.x = mouseX * 0.3;
-      camera.position.z = THREE.MathUtils.lerp(5.5, 4.4, beachActive);
+      // Continuous Camera Choreography across the scroll:
+      // Stage 0 (Hero): camera (0, 0, 5.2)
+      // Stage 1 (45+): camera (-0.8, -0.05, 4.8)
+      // Stage 2 (350+): camera (0.8, 0.15, 4.3)
+      // Stage 3 (15+): camera (-0.3, 0.25, 4.0)
+      // Stage 4 (WHY US?): camera (0, 0.35, 3.5) -> Centers directly on the 3D emblem!
+      let targetCamX = 0;
+      let targetCamY = 0;
+      let targetCamZ = 5.2;
 
-      // Central Golden Arrow Emblem Transforms
-      const floatY = Math.sin(elapsedTime * 1.4) * 0.06;
-      const floatRot = Math.cos(elapsedTime * 1.2) * 0.04;
+      if (p <= 0.25) {
+        const t = p / 0.25;
+        targetCamX = THREE.MathUtils.lerp(0, -0.8, t);
+        targetCamY = THREE.MathUtils.lerp(0, -0.05, t);
+        targetCamZ = THREE.MathUtils.lerp(5.2, 4.8, t);
+      } else if (p <= 0.5) {
+        const t = (p - 0.25) / 0.25;
+        targetCamX = THREE.MathUtils.lerp(-0.8, 0.8, t);
+        targetCamY = THREE.MathUtils.lerp(-0.05, 0.15, t);
+        targetCamZ = THREE.MathUtils.lerp(4.8, 4.3, t);
+      } else if (p <= 0.75) {
+        const t = (p - 0.5) / 0.25;
+        targetCamX = THREE.MathUtils.lerp(0.8, -0.3, t);
+        targetCamY = THREE.MathUtils.lerp(0.15, 0.25, t);
+        targetCamZ = THREE.MathUtils.lerp(4.3, 4.0, t);
+      } else {
+        const t = (p - 0.75) / 0.25;
+        targetCamX = THREE.MathUtils.lerp(-0.3, 0.0, t);
+        targetCamY = THREE.MathUtils.lerp(0.25, 0.35, t);
+        targetCamZ = THREE.MathUtils.lerp(4.0, 3.5, t);
+      }
 
-      // As user scrolls towards "WHY US?", emblem positions right in the center (matching the screenshot!)
-      emblemGroup.position.x = mouseX * 0.3;
-      emblemGroup.position.y = 0.3 + floatY + mouseY * 0.2;
-      emblemGroup.position.z = THREE.MathUtils.lerp(0, 0.3, beachActive);
+      camera.position.x = targetCamX + mouseX * 0.25;
+      camera.position.y = targetCamY + mouseY * 0.15;
+      camera.position.z = targetCamZ;
+      camera.lookAt(0, targetCamY * 0.5, 0);
 
-      // Emblem slowly orbits and catches the warm sunlight reflections
-      emblemGroup.rotation.y = elapsedTime * 0.3 + mouseX * 0.4;
-      emblemGroup.rotation.x = floatRot + mouseY * 0.25;
-      emblemGroup.rotation.z = Math.sin(elapsedTime * 0.8) * 0.03;
+      // Central Golden Arrow Emblem Continuous Transformation
+      const floatY = Math.sin(elapsedTime * 1.4) * 0.05;
+      const floatRot = Math.cos(elapsedTime * 1.2) * 0.03;
 
-      const dynamicScale = THREE.MathUtils.lerp(1.0, 1.15, beachActive);
-      emblemGroup.scale.setScalar(dynamicScale);
+      // Emblem moves in sync with the scroll
+      let targetEmblemX = 0;
+      let targetEmblemY = 0.4;
+      let targetEmblemScale = 1.0;
+      const targetEmblemRotY = p * Math.PI * 1.5;
+
+      if (p <= 0.25) {
+        const t = p / 0.25;
+        targetEmblemX = THREE.MathUtils.lerp(0, 0.4, t);
+        targetEmblemY = THREE.MathUtils.lerp(0.4, 0.25, t);
+        targetEmblemScale = THREE.MathUtils.lerp(1.0, 0.95, t);
+      } else if (p <= 0.5) {
+        const t = (p - 0.25) / 0.25;
+        targetEmblemX = THREE.MathUtils.lerp(0.4, -0.4, t);
+        targetEmblemY = THREE.MathUtils.lerp(0.25, 0.3, t);
+        targetEmblemScale = THREE.MathUtils.lerp(0.95, 1.05, t);
+      } else if (p <= 0.75) {
+        const t = (p - 0.5) / 0.25;
+        targetEmblemX = THREE.MathUtils.lerp(-0.4, 0.2, t);
+        targetEmblemY = THREE.MathUtils.lerp(0.3, 0.35, t);
+        targetEmblemScale = THREE.MathUtils.lerp(1.05, 1.1, t);
+      } else {
+        const t = (p - 0.75) / 0.25;
+        targetEmblemX = THREE.MathUtils.lerp(0.2, 0.0, t); // EXACT CENTER for "WHY US?"
+        targetEmblemY = THREE.MathUtils.lerp(0.35, 0.35, t);
+        targetEmblemScale = THREE.MathUtils.lerp(1.1, 1.22, t);
+      }
+
+      emblemGroup.position.x = targetEmblemX + mouseX * 0.3;
+      emblemGroup.position.y = targetEmblemY + floatY + mouseY * 0.2;
+      emblemGroup.position.z = 0;
+
+      emblemGroup.rotation.y =
+        elapsedTime * 0.25 + targetEmblemRotY + mouseX * 0.35;
+      emblemGroup.rotation.x = floatRot + mouseY * 0.2;
+      emblemGroup.rotation.z = Math.sin(elapsedTime * 0.8) * 0.02;
+
+      emblemGroup.scale.setScalar(targetEmblemScale);
 
       // 5. Render
       renderer.autoClear = false;

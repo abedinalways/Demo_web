@@ -1,24 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #06070b;
-  --foreground: #f4f6fb;
-  --neon-cyan: #00f2fe;
-  --neon-purple: #a855f7;
-  --neon-blue: #3b82f6;
-  --neon-emerald: #10b981;
-  --neon-amber: #f7c02f;
-  --card-bg: rgba(13, 16, 27, 0.75);
+  --background: #8b9da7;
+  --foreground: #ffffff;
+  --brand-yellow: #f7c02f;
+  --brand-yellow-dark: #d8a41f;
+  --brand-charcoal: #202020;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-neon-cyan: var(--neon-cyan);
-  --color-neon-purple: var(--neon-purple);
-  --color-neon-blue: var(--neon-blue);
-  --color-neon-emerald: var(--neon-emerald);
-  --color-neon-amber: var(--neon-amber);
+  --color-dokmeh-yellow: var(--brand-yellow);
+  --color-dokmeh-dark: var(--brand-charcoal);
 }
 
 html {
@@ -26,7 +20,6 @@ html {
   color: var(--foreground);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   text-rendering: optimizeLegibility;
-  color-scheme: dark;
 }
 
 /* Lenis Smooth Scroll Styles */
@@ -55,38 +48,14 @@ html.lenis, html.lenis body {
   width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #06070b;
+  background: #617380;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2438;
+  background: var(--brand-yellow);
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--neon-cyan);
-}
 
-/* Sci-Fi Grid Background */
-.sci-fi-grid {
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-/* Glow Utilities */
-.glow-cyan {
-  box-shadow: 0 0 30px -5px rgba(0, 242, 254, 0.35);
-}
-
-.glow-purple {
-  box-shadow: 0 0 30px -5px rgba(168, 85, 247, 0.35);
-}
-
-.glow-amber {
-  box-shadow: 0 0 30px -5px rgba(247, 192, 47, 0.35);
-}
-
-/* Noise Overlay */
+/* Subtle Film Grain Overlay */
 .grain-overlay {
   position: fixed;
   inset: 0;
@@ -94,12 +63,12 @@ html.lenis, html.lenis body {
   height: 100vh;
   pointer-events: none;
   z-index: 99;
-  opacity: 0.025;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Selection */
 ::selection {
-  background-color: var(--neon-cyan);
-  color: #06070b;
+  background-color: var(--brand-yellow);
+  color: #111111;
 }
