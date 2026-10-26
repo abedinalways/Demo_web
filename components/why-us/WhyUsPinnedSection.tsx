@@ -123,8 +123,12 @@ export default function WhyUsPinnedSection() {
             {/* Center: Open Stage for the 3D Golden Emblem */}
             <div className="w-48 lg:w-96 h-48 lg:h-96" aria-hidden="true" />
 
-            {/* Right: Studio Philosophy Statement */}
+            {/* Right: Studio Philosophy Statement + Golden Shoreline Infusion Indicator */}
             <div className="flex-1 max-w-lg">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#f7c02f]/40 bg-[#f7c02f]/10 backdrop-blur-md text-[11px] font-mono tracking-wider text-[#f7c02f] mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#f7c02f] animate-ping" />
+                SHORELINE TOUCHDOWN · GOLDEN ESSENCE INFUSION
+              </div>
               <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed font-normal drop-shadow-lg text-left">
                 {steps[3].copy}
               </p>
