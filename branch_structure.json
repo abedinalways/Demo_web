@@ -1,0 +1,18 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "feature/animation",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "feature/animation": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "feature/animation",
+    "origin"
+  ]
+}
