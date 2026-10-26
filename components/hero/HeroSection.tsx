@@ -23,7 +23,10 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-[100svh] flex flex-col justify-between items-center px-6 md:px-16 pt-24 pb-10 z-10 pointer-events-none select-none">
+    <section
+      id="hero"
+      className="relative min-h-[100svh] flex flex-col justify-between items-center px-6 md:px-16 pt-24 pb-10 z-10 pointer-events-none select-none"
+    >
       {/* Reserved 3D Emblem Stage Space */}
       <div className="w-full h-32 md:h-44" aria-hidden="true" />
 

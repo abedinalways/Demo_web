@@ -59,39 +59,39 @@ export default function Navbar() {
 
           <nav className="flex flex-col gap-6 text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight">
             <a
-              href="#works"
+              href="#hero"
               onClick={() => setMenuOpen(false)}
               className="hover:text-[#f7c02f] transition-colors"
             >
-              Works
+              01 · Universe
             </a>
             <a
               href="#why-us"
               onClick={() => setMenuOpen(false)}
               className="hover:text-[#f7c02f] transition-colors"
             >
-              Why Dokmeh?
+              02 · Why Us
             </a>
             <a
-              href="#services"
+              href="#philosophy"
               onClick={() => setMenuOpen(false)}
               className="hover:text-[#f7c02f] transition-colors"
             >
-              Services
+              03 · Philosophy
             </a>
             <a
-              href="#studio"
+              href="#capabilities"
               onClick={() => setMenuOpen(false)}
               className="hover:text-[#f7c02f] transition-colors"
             >
-              Studio
+              04 · Capabilities
             </a>
             <a
               href="#contact"
               onClick={() => setMenuOpen(false)}
               className="hover:text-[#f7c02f] transition-colors"
             >
-              Contact
+              05 · Contact
             </a>
           </nav>
 
